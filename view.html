@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Notes</title>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.6.0/css/all.css">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="style/style.css">
+    <script src="bootstrap.bundle.min.js"></script>
+    <script src="jquery-3.5.1.slim.min.js"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <!-- vue3 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.4.33/vue.global.min.js"></script>
+    <link href="https://unpkg.com/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet">
+</head>
+
+<body id="app">
+    <!-- nav bar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">My Note</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="notes.html">Notes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="newnote.html">New Note</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="title reveal">
+        <h1>{{note.title}}
+            <br>
+            <small style="font-size: 0.5em;">Date: {{note.createdDate}}</small>
+        </h1>
+    </div>
+    <div class="note-content container reveal">
+        <div id="content" v-html="note.htmlContent">
+
+        </div>
+        <div class="note-footer">
+            <div class="note-tags"></div>
+            <div class="note-actions">
+                <button class="btn btn-sm text-red" style="color: red;" data-bs-toggle="modal" data-bs-target="#myModal">
+                    <span class="icon"><i class="fa-solid fa-trash"></i></span>
+                    Delete</button>
+                &nbsp;
+                <a class="btn btn-sm" :href="'edit.html?id=' + note.id">
+                    <span class="icon"><i class="fa-solid fa-pen-to-square"></i></span>
+                    Edit</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模态框 -->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- 模态框头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Warning</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- 模态框内容 -->
+                <div class="modal-body">
+                    Are you sure want to delete?
+                </div>
+
+                <!-- 模态框底部 -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="deleteNote(note.id)">Yes</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <script src="script.js"></script>
+    <script>
+        loadNotes();
+        var id = getUrlKey('id');
+
+        if (id == null) {
+            window.location.href = 'notes.html'
+        }
+
+        var note = notes.find(note => note.id == id);
+
+        if (note == null) {
+            window.location.href = 'notes.html'
+        }
+
+        var app = Vue.createApp({
+            data() {
+                return {
+                    note,
+                    reveal: ScrollReveal()
+                }
+            },
+            mounted() {
+                this.reveal.reveal('.reveal', {
+                    duration: 700,
+                    origin: 'bottom',
+                    distance: '20px',
+                    reset: true,
+                });
+            },
+            methods: {
+                log() {
+                    console.log("asdsdsa")
+                },
+                deleteNote(id) {
+                    deleteNoteByIndex(id)
+                    console.log(1);
+                    window.location.href = 'notes.html'
+                    saveNotes();
+                }
+            }
+        });
+
+        app.mount("#app")
+    </script>
+</body>
+
+</html>

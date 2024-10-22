@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Notes</title>
+    <link rel="stylesheet" href="all.css" />
+    <link rel="stylesheet" href="bootstrap.min.css" />
+    <link rel="stylesheet" href="style/style.css" />
+    <script src="bootstrap.bundle.min.js"></script>
+    <script src="jquery-3.5.1.slim.min.js"></script>
+    <script src="scrollreveal"></script>
+    <!-- vue3 -->
+    <script src="vue.global.min.js"></script>
+  </head>
+
+  <body id="app">
+    <!-- nav bar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">My Note</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="notes.html">Notes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="newnote.html">New Note</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="notes">
+      <div class="title">
+        <h1>
+          Notes
+          <br />
+          <small style="font-size: 0.5em">Total {{notes.length}} Notes</small>
+        </h1>
+      </div>
+
+      <input
+        class="search-input"
+        id="search"
+        type="text"
+        placeholder="Search..."
+        @input="searchNotes"
+        v-model="searchText"
+      />
+      <div class="note-list" id="note-list">
+        <div class="note reveal" v-for="note in notes">
+          <div class="note-header" @click="viewNote(note.id)">
+            <div class="note-title">{{note.title}}</div>
+            <div class="note-date">{{note.createdDate}}</div>
+          </div>
+          <div class="note-body" @click="viewNote(note.id)">
+            {{note.content}}
+          </div>
+          <div class="note-footer">
+            <div class="note-tags"></div>
+            <div class="note-actions">
+              <button
+                class="btn btn-sm text-red"
+                style="color: red"
+                data-bs-toggle="modal"
+                data-bs-target="#myModal"
+                @click="setDelNoteId(note.id)"
+              >
+                <span class="icon"><i class="fa-solid fa-trash"></i></span>
+                Delete
+              </button>
+              &nbsp;
+              <a class="btn btn-sm" :href="'edit.html?id=' + note.id">
+                <span class="icon"
+                  ><i class="fa-solid fa-pen-to-square"></i
+                ></span>
+                Edit</a
+              >
+            </div>
+          </div>
+        </div>
+        <!-- <div class="note reveal" v-for="i in 100">
+                <div class="note-header">
+                    <div class="note-title">Note Title {{i}}</div>
+                    <div class="note-date">2022-11-11</div>
+                </div>
+                <div class="note-body">
+                    Note Content {{generateRandomString(10 + i)}}
+                </div>
+                <div class="note-footer">
+                    <div class="note-tags"></div>
+                    <div class="note-actions">
+                        <button class="btn btn-sm text-red" style="color: red;">
+                            <span class="icon"><i class="fa-solid fa-trash"></i></span>
+                            Delete</button>
+                        &nbsp;
+                        <button class="btn btn-sm">
+                            <span class="icon"><i class="fa-solid fa-pen-to-square"></i></span>
+                            Edit</button>
+                    </div>
+                </div>
+            </div> -->
+      </div>
+    </div>
+
+    <!-- 模态框 -->
+    <div class="modal fade" id="myModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- 模态框头部 -->
+          <div class="modal-header">
+            <h4 class="modal-title">Warning</h4>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+
+          <!-- 模态框内容 -->
+          <div class="modal-body">Are you sure want to delete?</div>
+
+          <!-- 模态框底部 -->
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+              @click="deleteNote(deleteId)"
+            >
+              Yes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+    <script>
+      var app = Vue.createApp({
+        data() {
+          return {
+            notes: [],
+            totalNumber: 0,
+            reveal: ScrollReveal(),
+            searchText: "",
+            deleteId: "",
+          };
+        },
+        mounted() {
+          this.reveal.reveal(".reveal", {
+            duration: 700,
+            origin: "bottom",
+            distance: "20px",
+            reset: true,
+          });
+        },
+        methods: {
+          getNotesInLocalstorage() {
+            loadNotes();
+            this.notes = notes;
+          },
+          generateRandomString(length) {
+            var result = "";
+            var characters =
+              "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var charactersLength = characters.length;
+            for (var i = 0; i < length; i++) {
+              result += characters.charAt(
+                Math.floor(Math.random() * charactersLength)
+              );
+            }
+            return result;
+          },
+          searchNotes() {
+            console.log(this.searchText);
+
+            this.notes = searchNotes(this.searchText);
+          },
+          viewNote(id) {
+            console.log(id);
+            window.location.href = "view.html?id=" + id;
+          },
+          deleteNote(id) {
+            deleteNoteByIndex(id);
+            console.log(1);
+            window.location.href = "notes.html";
+            saveNotes();
+          },
+          setDelNoteId(id) {
+            this.deleteId = id;
+          },
+        },
+        created() {
+          this.getNotesInLocalstorage();
+          totalNumber = notes.length;
+        },
+      });
+      app.mount("#app");
+    </script>
+  </body>
+</html>

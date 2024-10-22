@@ -1,0 +1,280 @@
+@import url('https://fonts.font.im/css?family=Montserrat');
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-image: url(../back1.png);
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.title-blur {
+    backdrop-filter: blur(8px);
+    z-index: -9;
+    background-color: #ffffff39;
+    opacity: 1;
+}
+
+.title h1 {
+    text-align: center;
+    font-size: 3em;
+    margin: 0;
+    padding: 0;
+    padding: 1em 0;
+}
+
+.title h2 {
+    text-align: center;
+    font-size: 2em;
+    margin: 0;
+}
+
+.bg {
+    background-image: url(../back1.png);
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.title-bg {
+    background-image: url(../back1.png);
+}
+
+.navbar {
+    opacity: 0.6;
+    backdrop-filter: blur(14px) saturate(150%);
+}
+
+.nav-left {
+    float: left;
+    background-color: #ffff0000;
+    border-radius: 64px;
+    padding: 0.5em 5em 0.5em 0.5em;
+    margin-top: 8px;
+}
+
+.nav-right {
+    float: right;
+    background-color: #ffff0000;
+    border-radius: 64px;
+    padding: 0.5em 0.5em 0.5em 4em;
+    margin-top: 8px;
+}
+
+.nav-left a {
+    text-decoration: none;
+    color: black;
+}
+
+.nav-right a {
+    text-decoration: none;
+    color: black;
+}
+
+.nav-left a:hover {
+    color: #008CBA;
+}
+
+.nav-right a:hover {
+    color: #008CBA;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    background-color: #008CBA00;
+    height: 64px;
+}
+
+.button.primary {
+    background-color: #008CBA;
+    border: none;
+    border-radius: 64px;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.button.primary:hover {
+    background-color: #007096;
+    color: white;
+    transition: 0.3s;
+}
+
+.button.primary.round {
+    border-radius: 50%;
+    padding: 15px 20px;
+}
+
+.button.secondary {
+    background-color: #008CBA00;
+    border: none;
+    border-radius: 64px;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.button.secondary:hover {
+    background-color: #aaa;
+    color: white;
+    transition: 0.2s;
+}
+
+.navbar {
+    background-color: white;
+}
+
+.navbar-collapse {
+    background-color: white;
+}
+
+.search-input {
+    border: 4px double #ccc;
+    border-radius: 64px;
+    padding: 0.5em 1em;
+    width: 100%;
+    max-width: 400px;
+    font-size: 1em;
+    margin: 0 auto;
+    text-align: center;
+    display: block;
+}
+
+.search-input:hover {
+    border-color: #008CBA;
+    border: double 4px #008CBA;
+}
+
+.search-input:focus {
+    border-color: #008CBA;
+    border: double 4px #008CBA;
+    outline: none;
+}
+
+.note-list {
+    width: 90%;
+    margin: 20px auto;
+    columns: 4;
+    column-gap: 1em;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023.98px) {
+    .note-list {
+        columns: 2;
+        column-gap: 20px;
+    }
+}
+
+@media screen and (max-width: 767.98px) {
+    .note-list {
+        width: 96vw;
+        columns: 1;
+    }
+}
+
+.note {
+    background-color: #fff;
+    color: white;
+    padding: 1em;
+    text-align: center;
+    break-inside: avoid;
+    margin-bottom: 20px;
+    border-top: #007096 solid 4px;
+    box-shadow: black 0px 1px 4px;
+}
+
+/* 向上浮动 */
+.note:hover {
+    transform: translateY(-5px);
+    transition: 0.2s;
+}
+
+.note-header {
+    color: black;
+}
+
+.note-header:hover {
+    color: #008CBA;
+}
+
+.note-title {
+    font-size: 1.5em;
+    margin: 0;
+    text-align: left;
+}
+
+.note-date {
+    font-size: 0.8em;
+    margin: 0;
+    text-align: left;
+}
+
+.note-body {
+    font-size: 1em;
+    text-align: left;
+    color: black;
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 6;
+    overflow: hidden;
+}
+
+.note-body:hover {
+    color: #008CBA;
+}
+
+.note-footer {
+    text-align: right;
+    margin-top: 1em;
+}
+
+.note-footer.btn {
+    text-decoration: none;
+    color: black;
+}
+
+.w-e-scroll {
+    min-height: 350px;
+}
+
+.note-actions {}
+
+/* 块状输入框 */
+.note-title-input {
+    font-size: 1.5em;
+    text-align: left;
+    border: none;
+    outline: none;
+    padding: 1em;
+    width: 100%;
+}
+
+.note-title-input:hover {
+    border: none;
+    outline: none;
+}
+
+.note-content {
+    font-size: 1em;
+    text-align: left;
+    color: black;
+    word-wrap: break-word;
+    width: 100%;
+    border: none;
+    border-radius: 12px;
+    outline: none;
+    padding: 1em;
+    background-color: rgb(237, 231, 223);
+}

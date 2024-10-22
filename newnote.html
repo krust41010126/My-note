@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Notes</title>
+    <link rel="stylesheet" href="all.css" />
+    <link rel="stylesheet" href="bootstrap.min.css" />
+    <link rel="stylesheet" href="style/style.css" />
+    <script src="bootstrap.bundle.min.js"></script>
+    <script src="jquery-3.5.1.slim.min.js"></script>
+    <!-- vue3 -->
+    <script src="vue.global.min.js"></script>
+    <link href="style.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <!-- nav bar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">My Note</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="notes.html">Notes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="newnote.html">New Note</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="title">
+      <h1>New Note</h1>
+    </div>
+
+    <input
+      class="note-title-input"
+      id="note-title"
+      type="text"
+      placeholder="Note Title"
+      style="margin: 16px; width: calc(100% - 32px)"
+    />
+
+    <div id="editor—wrapper" style="padding: 1em; min-height: 30em">
+      <div id="toolbar-container"><!-- 工具栏 --></div>
+      <div id="editor-container"><!-- 编辑器 --></div>
+    </div>
+
+    <!-- center the button group-->
+    <div style="text-align: center; margin-top: 20px">
+      <button type="button" id="save" class="button primary">Save</button>
+      <button type="button" id="reset" class="button secondary">reset</button>
+    </div>
+
+    <script src="index.js"></script>
+    <script src="script.js"></script>
+    <script>
+      const { createEditor, createToolbar } = window.wangEditor;
+
+      const editorConfig = {
+        placeholder: "Type here...",
+        onChange(editor) {
+          const html = editor.getHtml();
+          // console.log('editor content', html)
+          // 也可以同步到 <textarea>
+        },
+      };
+
+      const editor = createEditor({
+        selector: "#editor-container",
+        html: "<p><br></p>",
+        config: editorConfig,
+        mode: "simple", // or 'simple'
+      });
+
+      const toolbarConfig = {};
+
+      const toolbar = createToolbar({
+        editor,
+        selector: "#toolbar-container",
+        config: toolbarConfig,
+        mode: "simple", // or 'simple'
+      });
+
+      $("#save").click(function () {
+        loadNotes();
+        const title = $("#note-title").val();
+        const html = editor.getHtml();
+        const raw = editor.getText();
+        var note = new Note(title, raw, html);
+        if (title === "") {
+          alert("You must enter a title!");
+          return;
+        }
+        addNote(note);
+        console.log(notes);
+        saveNotes();
+        window.location.href = "view.html?id=" + note.id;
+      });
+
+      $("#reset").click(function () {
+        editor.clear();
+      });
+    </script>
+  </body>
+</html>
